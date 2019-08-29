@@ -30,10 +30,11 @@ timezone: UTC
 # Zimbra configuration
 ################################################################################
 zimbra_version: 8.8.15
+# TODO: Include checksums
 zimbra_versions:
   8.8.15:
-    build: 3847
-    timestamp: 20190823100304
+    build: 3829
+    timestamp: 20190718141144
   8.8.12:
     build: 3794
     timestamp: 20190329045002
@@ -61,19 +62,24 @@ zimbra_versions:
   8.6.0:
     build: 1153
     timestamp: 20141215195814
-zimbra_build: "{{ zimbra_versions[zimbra_version].build }}"
-zimbra_timestamp: "{{ zimbra_versions[zimbra_version].timestamp }}"
+zimbra_distro_specific_versions:
+  8.8.15:
+    UBUNTU18:
+      build: 3847
+      timestamp: 20190823100304
+zimbra_distro: "{{ zimbra_distros[ansible_distribution][ansible_distribution_major_version] }}"
+zimbra_build: "{{ (zimbra_distro_specific_versions[zimbra_version][zimbra_distro] | default(zimbra_versions[zimbra_version])).build }}"
+zimbra_timestamp: "{{ (zimbra_distro_specific_versions[zimbra_version][zimbra_distro] | default(zimbra_versions[zimbra_version])).timestamp }}"
 zimbra_distros:
   Ubuntu:
-    12: UBUNTU12
-    14: UBUNTU14
-    16: UBUNTU16
-    18: UBUNTU18
+    "12": UBUNTU12
+    "14": UBUNTU14
+    "16": UBUNTU16
+    "18": UBUNTU18
   CentOS:
-    6: RHEL6
-    7: RHEL7
-zimbra_distro: "{{ zimbra_distros[ansible_distribution][ansible_distribution_major_version] }}"
-zmurl: "https://files.zimbra.com/downloads/{{ zimbra_version }}_GA"
+    "6": RHEL6
+    "7": RHEL7
+zmurl: "https://files.zimbra.com/downloads/{{ zimbra_version }}_GA/"
 zmpkg: "zcs-{{ zimbra_version }}_GA_{{ zimbra_build }}.{{ zimbra_distro }}_64.{{ zimbra_timestamp }}"
 
 absent:
@@ -83,7 +89,10 @@ absent:
 ubuntu:
   - razor
   - pyzor
+  - gnupg
+  - net-tools
 
 centos:
   - pyzor
   - perl-Razor-Agent
+# TODO: gnupg
