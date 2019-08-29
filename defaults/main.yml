@@ -1,3 +1,81 @@
+#
+# Products to be installed
+################################################################################
+zimbra_ldap: y
+zimbra_logger: y
+zimbra_mta: y
+zimbra_dnscache: n
+zimbra_snmp: n
+zimbra_store: y
+zimbra_apache: y
+zimbra_spell: y
+zimbra_memcached: y
+zimbra_proxy: y
+zimbra_chat: n
+zimbra_drive: n
+zimbra_imapd: n
+zimbra_policyd: n
+
+#
+# Zimbra configuration
+################################################################################
+
+hostname: "localhost"
+domain: "localdomain"
+zmpasswd: "!23Change"
+zmnetwork: "192.168.200.0/8"
+timezone: UTC
+
+#
+# Zimbra configuration
+################################################################################
+zimbra_version: 8.8.15
+zimbra_versions:
+  8.8.15:
+    build: 3847
+    timestamp: 20190823100304
+  8.8.12:
+    build: 3794
+    timestamp: 20190329045002
+  8.8.11:
+    build: 3737
+    timestamp: 20181207111719
+  8.8.10:
+    build: 3039
+    timestamp: 20180928094617
+  8.8.9:
+    build: 3019
+    timestamp: 20180809160254
+  8.8.8:
+    build: 2009
+    timestamp: 20180322150747
+  8.8.7:
+    build: 1964
+    timestamp: 20180223145016
+  8.8.6:
+    build: 1906
+    timestamp: 20171130041047
+  8.7.11:
+    build: 1854
+    timestamp: 20170531151956
+  8.6.0:
+    build: 1153
+    timestamp: 20141215195814
+zimbra_build: "{{ zimbra_versions[zimbra_version].build }}"
+zimbra_timestamp: "{{ zimbra_versions[zimbra_version].timestamp }}"
+zimbra_distros:
+  Ubuntu:
+    12: UBUNTU12
+    14: UBUNTU14
+    16: UBUNTU16
+    18: UBUNTU18
+  CentOS:
+    6: RHEL6
+    7: RHEL7
+zimbra_distro: "{{ zimbra_distros[ansible_distribution][ansible_distribution_major_version] }}"
+zmurl: "https://files.zimbra.com/downloads/{{ zimbra_version }}_GA"
+zmpkg: "zcs-{{ zimbra_version }}_GA_{{ zimbra_build }}.{{ zimbra_distro }}_64.{{ zimbra_timestamp }}"
+
 absent:
   - postfix
   - sendmail
