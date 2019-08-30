@@ -27,6 +27,8 @@
 - import_tasks: 'configure/mta.yml'
   when: zimbra_mta == 'y'
 
+- import_tasks: 'configure/dkim.yml'
+
 #
 # Extras configuration process
 ################################################################################
