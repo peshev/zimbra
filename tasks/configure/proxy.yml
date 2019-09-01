@@ -2,7 +2,7 @@
 # Configuring Zimbra OSE
 ################################################################################
 - name: Enabling Zimbra's admin through Proxy Server
-  command: ./zmproxyconfig -e -w -C -H "{{ hostname }}"."{{ domain }}"
+  command: "./zmproxyconfig -e -w -C -H {{ hostname }}.{{ domain }}"
   args:
     chdir: "{{ zimbra_libexec }}"
   become: yes

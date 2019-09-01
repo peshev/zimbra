@@ -3,13 +3,13 @@
 # Configuring Zimbra OSE
 ################################################################################
 - name: Querying DKIM records for domain
-  command: {{ zimbra_libexec }}/zmdkimkeyutil -q -d "{{ domain }}"
+  command: "{{ zimbra_libexec }}/zmdkimkeyutil -q -d {{ domain }}"
   register: dkim_result
   become: yes
   become_user: "{{ zimbra_user }}"
 
 - name: Add DKIM data for domain
-  command: {{ zimbra_libexec }}/zmdkimkeyutil -a -d "{{ domain }}"
+  command: "{{ zimbra_libexec }}/zmdkimkeyutil -a -d {{ domain }}"
   when: dkim_result.rc == 1
   become: yes
   become_user: "{{ zimbra_user }}"

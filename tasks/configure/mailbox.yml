@@ -3,7 +3,7 @@
 # Configuring Zimbra OSE
 ################################################################################
 - name: Enabling HTTP to HTTPS redirect
-  command: ./zmprov ms "{{ hostname }}"."{{ domain }}" zimbraReverseProxyMailMode redirect
+  command: "./zmprov ms {{ hostname }}.{{ domain }} zimbraReverseProxyMailMode redirect"
   args:
     chdir: "{{ zimbra_bin }}"
 
@@ -16,7 +16,7 @@
 # Configuring RBLs
 ################################################################################
 - name: Importing RBLs
-  command: ./zmprov ms "{{ hostname }}"."{{ domain }}" +zimbraMtaRestriction 'reject_rbl_client {{ item }}'
+  command: "./zmprov ms {{ hostname }}.{{ domain }} +zimbraMtaRestriction 'reject_rbl_client {{ item }}'"
   args:
     chdir: "{{ zimbra_bin }}"
   with_items: "{{ zimbra_rbls }}"
