@@ -4,6 +4,6 @@
 - name: Enabling Zimbra's admin through Proxy Server
   command: ./zmproxyconfig -e -w -C -H "{{ hostname }}"."{{ domain }}"
   args:
-    chdir: /opt/zimbra/libexec/
+    chdir: "{{ zimbra_libexec }}"
   become: yes
-  become_user: zimbra
+  become_user: "{{ zimbra_user }}"

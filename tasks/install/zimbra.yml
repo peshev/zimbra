@@ -38,4 +38,4 @@
 - name: Configuring Zimbra OSE's services for use
   command: ./zmsetup.pl -c /tmp/zcs/installZimbraScript
   args:
-    chdir: /opt/zimbra/libexec/
+    chdir: "{{ zimbra_libexec }}"

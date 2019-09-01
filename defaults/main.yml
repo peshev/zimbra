@@ -96,3 +96,22 @@ centos:
   - pyzor
   - perl-Razor-Agent
 # TODO: gnupg
+
+zimbra_home: /opt/zimbra
+zimbra_bin: "{{ zimbra_home }}/bin"
+zimbra_libexec: "{{ zimbra_home }}/libexec"
+zimbra_user: zimbra
+zimbra_group: zimbra
+
+zimbra_rbls:
+  - zen.spamhaus.org
+  - sbl.spamhaus.org
+  - dsn.rfc-ignorant.org
+  - bl.spamcop.net
+  - dnsbl.sorbs.net
+
+zimbra_logos:
+  - src: '{{ zmlogologin }}'
+    name: Login
+  - src: '{{ zmlogoapp }}'
+    name: App

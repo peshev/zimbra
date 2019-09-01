@@ -3,7 +3,7 @@
 # Validations before run the playbook
 ################################################################################
 - name: Checking if there is an Zimbra OSE install already
-  command: getent passwd zimbra
+  command: "getent passwd {{ zimbra_user }}"
   register: getent_passwd
   ignore_errors: true
 
@@ -41,7 +41,7 @@
 - name: 'Reloading Zimbra OSE Services'
   command: ./zmcontrol restart
   args:
-    chdir: '/opt/zimbra/bin/'
+    chdir: "{{ zimbra_bin }}"
   become: yes
-  become_user: zimbra
+  become_user: "{{ zimbra_user }}"
   ignore_errors: true

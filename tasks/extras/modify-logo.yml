@@ -4,39 +4,26 @@
 #  WARNING: It's required to use this playbook both files: The logo for the
 #           webmail and the logo for the login screen.
 
-- name: Send the logo file (LOGIN) from your PC to the Server
+- name: Send the logo files from your PC to the Server
   copy:
-    src: '{{ zmlogologin }}'
-    dest: /opt/zimbra/jetty/webapps/zimbra/img/logoLoginBanner.png
-    owner: zimbra
-    group: zimbra
+    src: '{{ src }}'
+    dest: "{{ zimbra_home }}/jetty/webapps/zimbra/img/logo{{ name }}Banner.png"
+    owner: "{{ zimbra_user }}"
+    group: "{{ zimbra_group }}"
     mode: 0644
-
-- name: Send the logo file (WEBMAIL) from your PC to the Server
-  copy:
-    src: '{{ zmlogoapp }}'
-    dest: /opt/zimbra/jetty/webapps/zimbra/img/logoAppBanner.png
-    owner: zimbra
-    group: zimbra
-    mode: 0644
+  with_items: "{{ zimbra_logos }}"
 
 - name: Configure the Zimbra Server to find the new logos
   command: './zmprov md {{ domain }} zimbraSkinLogoURL https://{{ hostname }}.{{ domain }}'
   args:
-    chdir: /opt/zimbra/bin
-  become: true
-  become_user: zimbra
+    chdir: "{{ zimbra_bin }}"
+  become: yes
+  become_user: "{{ zimbra_user }}"
 
-- name: Configure the path for the login logo file
-  command: './zmprov md {{ domain }} zimbraSkinLogoLoginBanner /img/logoLoginBanner.png'
+- name: Configure the path for the logo files
+  command: './zmprov md {{ domain }} zimbraSkinLogoLoginBanner /img/logo{{ name }}Banner.png'
   args:
-    chdir: /opt/zimbra/bin
-  become: true
-  become_user: zimbra
-
-- name: Configure the path for the webmail logo file
-  command: './zmprov md {{ domain }} zimbraSkinLogoAppBanner /img/logoAppBanner.png'
-  args:
-    chdir: /opt/zimbra/bin
-  become: true
-  become_user: zimbra
+    chdir: "{{ zimbra_bin }}"
+  with_items: "{{ zimbra_logos }}"
+  become: yes
+  become_user: "{{ zimbra_user }}"
